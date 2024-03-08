@@ -3,8 +3,8 @@ namespace scrutch {
 
     export interface codeblock {
         opcode: string;
-        parent: codeblock_id;
-        next:   codeblock_id;
+        parent: codeblock_id | null;
+        next:   codeblock_id | null;
         inputs: any;
         fields: any;
         shadow: boolean;
@@ -26,6 +26,8 @@ namespace scrutch {
 
     export interface sprite extends target {
         isStage: false;
+        x: number;
+        y: number;
     }
 
     export interface stage extends target {
