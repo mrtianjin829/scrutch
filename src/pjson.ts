@@ -1,4 +1,10 @@
 // This is a namespace for the project.json implementation in Scratch.
+import { randomUUID } from "crypto"
+
+function shallowCopy<T>(base: T): T{
+    return JSON.parse(JSON.stringify(base));
+}
+
 namespace scrutch {
     type blox<T> = { [key: string]: T }
     type codeblock_id = string
@@ -59,6 +65,25 @@ namespace scrutch {
 
          constructor(a: iproject){
              this.json = a
+         }
+
+         createBlockLink(blocks: codeblock[],parent: codeblock_id | null = null){
+             let link: blox<codeblock> = {}
+             let lastID: string|null;
+
+             let eachUUID = blocks.map(()=>randomUUID());
+
+             for(let [index,block] of blocks.entries()){
+                 let cb = shallowCopy(block);
+
+                 if(eachUUID[index+1]){
+                    cb.next = eachUUID[index+1];
+                 } else cb.next = null;
+
+                 cb.parent = parent;
+
+                 link[eachUUID[index]] = cb;
+             }
          }
 
          addBlocks(sprite: string, blocks: blox<codeblock>){
