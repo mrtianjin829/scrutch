@@ -73,7 +73,8 @@ namespace scrutch {
 
              let eachUUID = blocks.map(()=>randomUUID());
 
-             for(let [index,block] of blocks.entries()){
+             for(let index = 0; index < eachUUID.length; index++){
+                 let block = blocks[index];
                  let cb = shallowCopy(block);
 
                  if(eachUUID[index+1]){
@@ -84,6 +85,8 @@ namespace scrutch {
 
                  link[eachUUID[index]] = cb;
              }
+
+             return link;
          }
 
          addBlocks(sprite: string, blocks: blox<codeblock>){
