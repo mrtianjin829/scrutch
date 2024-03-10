@@ -24,18 +24,21 @@ namespace scrutch {
         y?: number;
     }
     
+    export function cb(block: Partial<codeblock>): codeblock {
+        if(!block.parent) block.parent = null;
+        if(!block.next)   block.next = null;
+        if(!block.inputs) block.inputs = {};
+        if(!block.fields) block.fields = {};
+        block.shadow = block.shadow ?? false;
+        block.topLevel = block.topLevel ?? true;
+
+        return block as codeblock;
+    }
     // Base class for a sprite or a stage
     interface target {
         isStage: boolean;
         name: string;
-        variables: any;
-        lists: any;
-        broadcasts: any;
         blocks: blox<codeblock>;
-        comments: any;
-        currentCostume: number;
-        costumes: any[];
-        sounds: any[];
     }
     
     // Represents a sprite in scratch.
@@ -55,9 +58,6 @@ namespace scrutch {
 
     export interface iproject {
         targets: primitive[];
-        monitors: any[];
-        extensions: any[];
-        meta: any;
     }
 
     export class project {
@@ -67,9 +67,8 @@ namespace scrutch {
              this.json = a
          }
 
-         createBlockLink(blocks: codeblock[],parent: codeblock_id | null = null){
+         createBlockLink(blocks: codeblock[]){
              let link: blox<codeblock> = {}
-             let lastID: string|null;
 
              let eachUUID = blocks.map(()=>randomUUID());
 
@@ -81,7 +80,9 @@ namespace scrutch {
                     cb.next = eachUUID[index+1];
                  } else cb.next = null;
 
-                 cb.parent = parent;
+                 if(eachUUID[index-1]){
+                     cb.parent = eachUUID[index-1]
+                 } else cb.parent = null;
 
                  link[eachUUID[index]] = cb;
              }
