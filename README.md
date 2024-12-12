@@ -1,5 +1,5 @@
 # Scrutch
-
+**⚠️ Project is discontinued**
 ## About this Project
 Scrutch is an incomplete WIP (work in progress) project that tries to transpile JS-like code into Scratch codeblocks. It mainly works around the `project.json` file and could be compatible with proper Scratch mods
 
